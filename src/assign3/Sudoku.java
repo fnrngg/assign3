@@ -122,6 +122,19 @@ public class Sudoku {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		String res = "";
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				res += givenInts[i][j] + " ";
+			}
+			if(i != 8) {
+				res += "\n";
+			}
+		}
+		return res;
+	}
 
 	// Provided -- the deliverable main().
 	// You can edit to do easier cases, but turn in
@@ -142,10 +155,7 @@ public class Sudoku {
 	private int[][] givenInts;
 	private HashSet<spot> spots;
 	
-	/**
-	 * Sets up based on the given ints.
-	 */
-	public Sudoku(int[][] ints) {
+	private void setUpSudoku(int[][] ints) {
 		givenInts = new int[ints.length][ints[0].length];
 		for (int i = 0; i < ints.length; i++) {
 			System.arraycopy(ints[i], 0, givenInts[i], 0, ints[0].length);
@@ -161,25 +171,45 @@ public class Sudoku {
 				}
 			}
 		}
+		spotsMaxSize = spots.size();
 	}
+	
+	/**
+	 * Sets up based on the given ints.
+	 */
+	public Sudoku(int[][] ints) {
+		setUpSudoku(ints);
+	}
+	
+	public Sudoku(String... rows) {
+		setUpSudoku(stringsToGrid(rows));
+	}
+	
+	public Sudoku(String text) {
+		setUpSudoku(textToGrid(text));
+	}
+	
 	
 	private int[][] solvedGrid;
 	private long startTime;
 	private long endTime;
+	private int spotsMaxSize;
 	
 	/**
 	 * Solves the puzzle, invoking the underlying recursive search.
 	 */
 	public int solve() {
-		startTime = System.currentTimeMillis();
+		if(spotsMaxSize == spots.size()) {
+			startTime = System.currentTimeMillis();
+		}
 		if(spots.size() == 0) {
 			if(solvedGrid == null) {
 				solvedGrid = new int[9][9];
 				for (int i = 0; i < 9; i++) {
 					System.arraycopy(givenInts[i], 0, solvedGrid[i], 0, 9);
 				}
+				endTime = System.currentTimeMillis();
 			}
-			endTime = System.currentTimeMillis();
 			return 1;
 		}
 		int sols = 0;
@@ -191,6 +221,9 @@ public class Sudoku {
 				givenInts[curr.getRow()][curr.getCol()] = i;
 				sols += solve();
 				givenInts[curr.getRow()][curr.getCol()] = 0;
+			}
+			if(sols >= 100) {
+				return sols;
 			}
 		}
 		spots.add(curr);
