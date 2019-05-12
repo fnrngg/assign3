@@ -16,7 +16,7 @@ public class DBConnect {
 	private void connect() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://" + MyDBInfo.MYSQL_DATABASE_SERVER + "?autoReconnect=true&useSSL=false",
+			con = DriverManager.getConnection("jdbc:mysql://" + MyDBInfo.MYSQL_DATABASE_SERVER + "?autoReconnect=true&useSSL=false&",
 														 MyDBInfo.MYSQL_USERNAME, MyDBInfo.MYSQL_PASSWORD);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -30,7 +30,7 @@ public class DBConnect {
 		try {
 			connect();
 			stmt = con.createStatement();
-			metropolises = new ArrayList<MetropolisInfo>();
+			metropolises.clear();
 			
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
@@ -75,17 +75,17 @@ public class DBConnect {
 		String sql = "SELECT * from metropolises";
 		
 		if(partial) {
-			sql += "where metropolises.metropolis like '%" + metro.getMetropolis() + "%' and metropolises.continent like '%" + metro.getContinent();
+			sql += " where metropolises.metropolis like '%" + metro.getMetropolis() + "%' and metropolises.continent like '%" + metro.getContinent();
 		} else {
-			sql += "where metropolises.metropolis = " + metro.getMetropolis() + "%' and metropolises.continent = " + metro.getContinent();
+			sql += " where metropolises.metropolis = '" + metro.getMetropolis() + "' and metropolises.continent = '" + metro.getContinent();
 		}
 		
 		if(largerEqualOrSmaller.equals("Larger Than")) {
-			sql += "and metropolises.population > " + metro.getPopulation();
+			sql += "' and metropolises.population > " + metro.getPopulation() + ";";
 		} else if(largerEqualOrSmaller.equals("Equals To")) {
-			sql += "and metropolises.population = " + metro.getPopulation();
+			sql += "' and metropolises.population = " + metro.getPopulation() + ";";
 		} else {
-			sql += "and metropolises.population < " + metro.getPopulation();
+			sql += "' and metropolises.population < " + metro.getPopulation() + ";";
 		}
 		
 		readDB(sql);

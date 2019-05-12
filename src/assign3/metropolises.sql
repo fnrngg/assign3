@@ -10,7 +10,8 @@ CREATE TABLE metropolises (
     population BIGINT
 );
 
-select * from metropolises;
+select * from metropolises
+where metropolises.metropolis like '%Mu%';
 
 INSERT INTO metropolises VALUES
 	("Mumbai","Asia",20400000),

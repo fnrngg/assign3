@@ -9,7 +9,7 @@ package assign3;
 public class MyDBInfo {
 	
 	public static final String MYSQL_USERNAME = "root";
-	public static final String MYSQL_PASSWORD = "";
+	public static final String MYSQL_PASSWORD = "2481632";
 	public static final String MYSQL_DATABASE_SERVER = "localhost:3306/metros";
 	public static final String MYSQL_DATABASE_NAME = "metros";
 

@@ -25,7 +25,6 @@ public class DatabaseTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-		System.out.println("aqaa");
 		if(arg1 == 0) {
 			return metropolises.get(arg0).getMetropolis();
 		} else if(arg1 == 1) {

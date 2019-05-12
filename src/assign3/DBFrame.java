@@ -94,7 +94,6 @@ public class DBFrame extends JFrame{
 				if(!(metropolis.equals("") && continent.equals("") && population == 0)) {
 					MetropolisInfo newMetro = new MetropolisInfo(metropolis, continent, population);
 					database.add(newMetro);
-					System.out.println(metropolises.size());
 					model.fireTableDataChanged();
 				}
 			}
@@ -121,8 +120,8 @@ public class DBFrame extends JFrame{
 				} else {
 					MetropolisInfo newMetro = new MetropolisInfo(metropolis, continent, population);
 					database.search(newMetro, isPartial, populationOption);
-					model.fireTableDataChanged();
 				}
+				model.fireTableDataChanged();
 			}
 		});
 		right.add(search);
